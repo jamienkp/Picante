@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delicious Recipe</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      footer {
+        background-color: #212529;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: url('hero.png') no-repeat center center/cover; /* Use your hero.png image */
+        height: 100vh;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+      }
+      .hero h1 {
+        font-size: 4rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Text shadow for better visibility */
+      }
+
+      /* Navbar Styling */
+      .navbar {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 2;
+        background-color: rgba(0, 0, 0, 0.6); /* Transparent black */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Shadow for modern look */
+      }
+      .navbar-brand {
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+      .nav-link {
+        color: #fff !important;
+      }
+      .nav-link:hover {
+        color: #ff7043 !important;
+      }
+
+      /* Recipe Section */
+      .recipe-section {
+        padding: 50px 0;
+        background-color: #f8f9fa;
+        /* Allow section to grow and avoid fixed height */
+        min-height: 50vh; /* This makes sure it takes at least 50% of the viewport height */
+      }
+      .recipe-card {
+        width: 18rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Chef Lacaza</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Recipe</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./about.html">About</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <h1>Culinary Dynamics Inc.</h1>
+      </section>
+
+      <!-- Recipe Section -->
+      <section class="recipe-section">
+        <div class="container text-center">
+          <h2 class="my-4">Recipe</h2>
+          <div class="card mx-auto shadow-lg recipe-card">
+            <img src="./Alouda.jpg" class="card-img-top" alt="Alouda Sorbet" />
+            <div class="card-body">
+              <h5 class="card-title">Alouda Sorbet</h5>
+              <p class="card-text text-justify">
+                Alouda sorbet is a refreshing blend of sweet milk, tapioca pearls,
+                and flavored syrups, topped with a scoop of ice cream, creating a
+                delightful fusion of creamy, icy, and chewy textures.
+              </p>
+              <a href="./recipe.html" class="btn btn-primary">See Recipe</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer>
+        &copy; 2025 Jamie | Made with ❤️
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
