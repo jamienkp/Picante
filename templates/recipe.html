@@ -75,27 +75,18 @@
             <img src="{{ url_for('static', filename='images/Alouda.jpg') }}" class="recipe-image" alt="Alouda Sorbet">
         </div>
 
+        <!-- Recipe Content (Dynamically Rendered) -->
         <div class="card mb-5">
             <div class="card-body">
                 <h5 class="card-title section-title">Ingredients</h5>
-                <ul>
-                    <li>Milk</li>
-                    <li>Tapioca pearls</li>
-                    <li>Flavor syrups (e.g., rose, vanilla)</li>
-                    <li>Ice cream (optional)</li>
-                </ul>
+                <pre>{{ recipe.split('Instructions')[0] }}</pre> <!-- Split content into ingredients and instructions -->
             </div>
         </div>
 
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title section-title">Instructions</h5>
-                <ol>
-                    <li>Boil tapioca pearls until soft.</li>
-                    <li>Mix milk and syrup together, adjust sweetness to taste.</li>
-                    <li>Layer the tapioca pearls with milk mixture in a glass.</li>
-                    <li>Add a scoop of ice cream on top (optional).</li>
-                </ol>
+                <pre>{{ recipe.split('Instructions')[1] }}</pre> <!-- Render instructions after the split -->
             </div>
         </div>
     </div>
