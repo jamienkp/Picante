@@ -58,7 +58,7 @@ jobs:
         run: unzip release.zip
 
       # Login to Azure
-      - name: 'cloud_user_p_a1e3d3a5@realhandsonlabs.com'
+      - name: 'Login to Azure'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_PUBLISH_PROFILE_CREDENTIALS }}
