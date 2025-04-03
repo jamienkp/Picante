@@ -8,7 +8,7 @@ from azure.keyvault.secrets import SecretClient
 app = Flask(__name__)
 
 # Azure Key Vault Configuration
-KEY_VAULT_URL = "https://cdi-vault.vault.azure.net//"
+KEY_VAULT_URL = "https://cdi-keyvault.vault.azure.net/"
 
 def get_storage_connection_string_from_keyvault():
     """Retrieve Azure Storage connection string from Key Vault"""
@@ -18,7 +18,7 @@ def get_storage_connection_string_from_keyvault():
         secret_client = SecretClient(vault_url=KEY_VAULT_URL, credential=credential)
 
         # Retrieve the connection string secret
-        secret = secret_client.get_secret("ConnectionStringBlob")  # Correct secret name
+        secret = secret_client.get_secret("CDI-ConnectionStringBlob")  # Correct secret name
         print(f"🔑 Retrieved connection string from Key Vault.")  # Debugging log
         return secret.value
 
@@ -32,27 +32,25 @@ AZURE_CONNECTION_STRING = get_storage_connection_string_from_keyvault()
 print(f"Connection String: {AZURE_CONNECTION_STRING}")  # Debug print for connection string
 
 # Azure Storage Configuration
-CONTAINER_NAME = "jamiecontainer"
+CONTAINER_NAME = "cdicontainer"
 BLOB_NAME = "Secret Recipe 3 2.txt"
 
 def get_recipe_from_blob():
     """Fetch recipe content from Azure Blob Storage"""
     try:
-        print(f"🔍 Attempting to fetch blob: {BLOB_NAME} from container: {CONTAINER_NAME}")  # Debug log
-        # Initialize Blob Service Client
+        print(f"🔍 Attempting to fetch blob: {BLOB_NAME} from container: {CONTAINER_NAME}") 
         blob_service_client = BlobServiceClient.from_connection_string(AZURE_CONNECTION_STRING)
         container_client = blob_service_client.get_container_client(CONTAINER_NAME)
         blob_client = container_client.get_blob_client(BLOB_NAME)
 
-        # Download the recipe
         blob_data = blob_client.download_blob()
         recipe_content = blob_data.readall().decode('utf-8')
         
-        print(f"✅ Successfully retrieved recipe content.")  # Debug log
+        print(f"✅ Successfully retrieved recipe content.")
         return recipe_content
 
     except Exception as e:
-        print(f"⚠️ Error retrieving recipe: {str(e)}")  # Debug log
+        print(f"⚠️ Error retrieving recipe: {str(e)}")  
         return f"⚠️ Error retrieving recipe: {str(e)}"
 
 @app.route('/')
