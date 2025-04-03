@@ -8,7 +8,7 @@ from azure.keyvault.secrets import SecretClient
 app = Flask(__name__)
 
 # Azure Key Vault Configuration
-KEY_VAULT_URL = "https://cdi-keyvault.vault.azure.net/"
+KEY_VAULT_URL = "https://cdi-keyvault2.vault.azure.net/"
 
 def get_storage_connection_string_from_keyvault():
     """Retrieve Azure Storage connection string from Key Vault"""
