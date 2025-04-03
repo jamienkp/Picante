@@ -4,54 +4,61 @@ from azure.storage.blob import BlobServiceClient
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
-# Initialize the Flask application
+# Initialize Flask application
 app = Flask(__name__)
 
 # Azure Key Vault Configuration
-KEY_VAULT_URL = "https://cdi-keyvault.vault.azure.net/"
+KEY_VAULT_URL = "https://cdi-vault.vault.azure.net/"  # ✅ Fixed double slash
 
 def get_storage_connection_string_from_keyvault():
-    """Retrieve Azure Storage connection string from Key Vault"""
+    """Retrieve Azure Storage connection string from Key Vault."""
     try:
-        # Use DefaultAzureCredential to authenticate
+        print("🔑 Attempting to authenticate with Azure Key Vault...")  # Debug log
+        
+        # Authenticate with DefaultAzureCredential
         credential = DefaultAzureCredential()
         secret_client = SecretClient(vault_url=KEY_VAULT_URL, credential=credential)
 
-        # Retrieve the connection string secret
-        secret = secret_client.get_secret("CDI-ConnectionStringBlob")  # Correct secret name
-        print(f"🔑 Retrieved connection string from Key Vault.")  # Debugging log
+        # Retrieve the secret
+        secret = secret_client.get_secret("ConnectionStringBlob")
+        print("✅ Successfully retrieved connection string from Key Vault.")  # Debug log
         return secret.value
 
     except Exception as e:
-        print(f"⚠️ Error retrieving secret from Key Vault: {str(e)}")  # Debug log
-        return f"⚠️ Error retrieving secret from Key Vault: {str(e)}"
+        print(f"❌ Error retrieving secret from Key Vault: {str(e)}")  # Debug log
+        return None  # Return None instead of an error message
 
 # Fetch the connection string from Key Vault
 AZURE_CONNECTION_STRING = get_storage_connection_string_from_keyvault()
 
-print(f"Connection String: {AZURE_CONNECTION_STRING}")  # Debug print for connection string
+if AZURE_CONNECTION_STRING is None:
+    print("❌ Exiting: Could not retrieve the connection string. Check Key Vault permissions.")
+    exit(1)  # Stop execution if Key Vault authentication fails
 
 # Azure Storage Configuration
-CONTAINER_NAME = "cdicontainer"
+CONTAINER_NAME = "jamiecontainer"
 BLOB_NAME = "Secret Recipe 3 2.txt"
 
 def get_recipe_from_blob():
-    """Fetch recipe content from Azure Blob Storage"""
+    """Fetch recipe content from Azure Blob Storage."""
     try:
-        print(f"🔍 Attempting to fetch blob: {BLOB_NAME} from container: {CONTAINER_NAME}") 
+        print(f"🔍 Fetching blob '{BLOB_NAME}' from container '{CONTAINER_NAME}'")  # Debug log
+        
+        # Initialize Blob Service Client
         blob_service_client = BlobServiceClient.from_connection_string(AZURE_CONNECTION_STRING)
         container_client = blob_service_client.get_container_client(CONTAINER_NAME)
         blob_client = container_client.get_blob_client(BLOB_NAME)
 
+        # Download the recipe
         blob_data = blob_client.download_blob()
         recipe_content = blob_data.readall().decode('utf-8')
         
-        print(f"✅ Successfully retrieved recipe content.")
+        print("✅ Successfully retrieved recipe content.")  # Debug log
         return recipe_content
 
     except Exception as e:
-        print(f"⚠️ Error retrieving recipe: {str(e)}")  
-        return f"⚠️ Error retrieving recipe: {str(e)}"
+        print(f"❌ Error retrieving recipe: {str(e)}")  # Debug log
+        return f"❌ Error retrieving recipe: {str(e)}"
 
 @app.route('/')
 def home():
@@ -67,10 +74,11 @@ def about():
 def recipe():
     print("🔄 Serving recipe page.")  # Debug log
     recipe_text = get_recipe_from_blob()
-    print(f"📜 Recipe content: {recipe_text[:100]}...")  # Debug log, printing the first 100 chars of the recipe
+    print(f"📜 Recipe content preview: {recipe_text[:100]}...")  # Debug log, first 100 chars
     return render_template('recipe.html', recipe=recipe_text)
 
 # Run the Flask application
 if __name__ == '__main__':
-    print("🚀 Flask application is starting...")  # Debug log
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 8080))  # ✅ Use PORT from environment variable
+    print(f"🚀 Flask application is starting on port {port}...")  # Debug log
+    app.run(host='0.0.0.0', port=port, debug=True)  # ✅ Binds to all interfaces
