@@ -68,4 +68,4 @@ jobs:
         with:
           app-name: 'CDI'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_58ABE381AE0640ED9955834069DA9DFE }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B9B3D93929964AF0B780C73974C56A94 }}
